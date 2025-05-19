@@ -4,19 +4,16 @@ import TaskList from '../components/TaskList';
 import ProgressTracker from '../components/ProgressTracker'; 
 
 const CreateTaskPage = () => {
-  const [tasks, setTasks] = useState([]);
-
-
-  useEffect(() => {
-    const storedTasks = localStorage.getItem('tasks');
-    if (storedTasks) {
-      setTasks(JSON.parse(storedTasks));
-    }
-  }, []);
+  
+   const [tasks, setTasks] = useState(() => {
+    const saved = localStorage.getItem('tasks');
+    return saved ? JSON.parse(saved) : [];
+  });
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
+
 
   const addTask = (task) => {
     setTasks([...tasks, { ...task, id: Date.now() }]);
